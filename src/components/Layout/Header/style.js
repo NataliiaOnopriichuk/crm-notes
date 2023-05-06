@@ -1,13 +1,13 @@
 import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import InputBase from "@mui/material/InputBase";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import InputBase from "@mui/material/InputBase";
 
 export const MyStyledAppBar = styled(AppBar)(({ theme }) => ({
     position: "fixed",
-    zIndex: (theme) => theme.zIndex.drawer + 1,
-    backgroundColor: theme.palette.action.disabled,
+    zIndex: theme.zIndex.tooltip,
+    backgroundColor: '#818181',
 }));
 
 export const MyStyledButton = styled(Button)(({ theme }) => ({
