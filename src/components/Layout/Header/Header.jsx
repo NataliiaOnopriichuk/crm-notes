@@ -20,6 +20,12 @@ export const Header = () => {
   const classesToolbar = useStylesToolbar();
   const classesButtonWrapper = useStylesButtonWrapper();
 
+  const [disabled, setDisabled] = React.useState(true);
+
+  const handleClick = () => {
+    setDisabled(!disabled);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MyStyledAppBar>
@@ -28,10 +34,18 @@ export const Header = () => {
             <MyStyledButton variant="contained">
               <Add style={{ color: "#606060" }} />
             </MyStyledButton>
-            <MyStyledButton variant="contained">
+            <MyStyledButton
+              variant="contained"
+              onClick={handleClick}
+              disabled={disabled}
+            >
               <DeleteOutline style={{ color: "#606060" }} />
             </MyStyledButton>
-            <MyStyledButton variant="contained">
+            <MyStyledButton
+              variant="contained"
+              onClick={handleClick}
+              disabled={disabled}
+            >
               <DriveFileRenameOutlineIcon style={{ color: "#606060" }} />
             </MyStyledButton>
           </Box>
