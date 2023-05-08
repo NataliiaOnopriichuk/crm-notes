@@ -7,10 +7,15 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { DataImagesContextProvider, SelectedItemContextProvider } from './service/serviceContext';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <CssVarsProvider>
-    <App />
-  </CssVarsProvider>
+  <SelectedItemContextProvider>
+    <DataImagesContextProvider>
+      <CssVarsProvider>
+        <App />
+      </CssVarsProvider>
+    </DataImagesContextProvider>
+  </SelectedItemContextProvider>
 );

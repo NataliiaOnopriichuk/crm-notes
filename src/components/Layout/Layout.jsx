@@ -1,14 +1,14 @@
 import { Box, CssBaseline } from "@mui/material";
 import { Header } from "./Header/Header";
-import { ListItemBar } from "../ListItem/ListItem";
+import { MainContent } from "./MainContent/MainContent";
 
 export const Layout = () => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <CssBaseline />
       <Header />
       <main>
-        <ListItemBar />
+        <MainContent />
       </main>
     </Box>
   );

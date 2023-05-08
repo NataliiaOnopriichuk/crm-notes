@@ -3,63 +3,71 @@ import { Add, DeleteOutline } from "@mui/icons-material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import SearchIcon from "@mui/icons-material/Search";
 import { useMedia } from "react-use";
 import {
   MyStyledAppBar,
   MyStyledButton,
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
   useStylesButtonWrapper,
   useStylesToolbar,
 } from "./style";
+import { SearchBox } from "../../SearchBox/SearchBox";
+import { useContext } from "react";
+import {
+  DataNotesContext,
+  SelectedItemContext,
+} from "../../../service/serviceContext";
+import { createNote, deleteNote } from "../../../service/api";
 
 export const Header = () => {
   const isMobile = useMedia("(max-width: 599px)");
   const classesToolbar = useStylesToolbar();
   const classesButtonWrapper = useStylesButtonWrapper();
+  const { selectedItem } = useContext(SelectedItemContext);
+  const { notes, setNotes } = useContext(DataNotesContext);
 
-  const [disabled, setDisabled] = React.useState(true);
+  const addNote = async () => {
+    const newNote = await createNote();
+    setNotes((prevNotes) => [...prevNotes, newNote]);
+  };
 
-  const handleClick = () => {
-    setDisabled(!disabled);
+  const deleteSelectedNote = async () => {
+    if (selectedItem) {
+      const selectedNote = notes.find((note) => note.id === selectedItem);
+      if (selectedNote) {
+        await deleteNote(selectedNote.id);
+        setNotes((prevNotes) =>
+          prevNotes.filter((note) => note.id !== selectedNote.id)
+        );
+      }
+    }
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MyStyledAppBar>
-        <Toolbar className={isMobile && classesToolbar.container}>
+        <Toolbar className={isMobile ? classesToolbar.container : null}>
           <Box className={classesButtonWrapper.container}>
-            <MyStyledButton variant="contained">
+            <MyStyledButton variant="contained" onClick={addNote}>
               <Add style={{ color: "#606060" }} />
             </MyStyledButton>
             <MyStyledButton
               variant="contained"
-              onClick={handleClick}
-              disabled={disabled}
+              disabled={selectedItem === null}
             >
-              <DeleteOutline style={{ color: "#606060" }} />
+              <DeleteOutline
+                style={{ color: "#606060" }}
+                onClick={deleteSelectedNote}
+              />
             </MyStyledButton>
             <MyStyledButton
               variant="contained"
-              onClick={handleClick}
-              disabled={disabled}
+              disabled={selectedItem === null}
             >
               <DriveFileRenameOutlineIcon style={{ color: "#606060" }} />
             </MyStyledButton>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Search sx={{ display: { xs: "flex" } }}>
-            <SearchIconWrapper>
-              <SearchIcon style={{ color: "#606060" }} />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              style={{ color: "#606060" }}
-            />
-          </Search>
+          <SearchBox />
         </Toolbar>
       </MyStyledAppBar>
     </Box>
