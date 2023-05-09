@@ -49,11 +49,12 @@ export const getAllNotes = async () => {
 
 export const createNote = async () => {
     try {
-        await axios({
+        const response = await axios({
             method: 'POST',
             url: `/apps/${database_id}/entities/${form_id}/properties.json?rest_api_key=${API_KEY}`,
-            data: { name: 'New note', type_name: "string" }
+            data: { name: 'New note', type_name: "string", desc: '' }
         });
+        return response.data.field
     } catch (error) {
         console.error('Failed to create note.');
         throw error;
@@ -66,6 +67,20 @@ export const deleteNote = async (id) => {
             method: 'DELETE',
             url: `/apps/${database_id}/entities/${form_id}/properties/${id}.json?rest_api_key=${API_KEY}`,
         });
+    } catch (error) {
+        console.error('Failed to delete note.');
+        throw error;
+    }
+};
+export const updateNote = async (id, name, desc) => {
+    try {
+        const response = await axios({
+            method: 'PUT',
+            url: `/apps/${database_id}/entities/${form_id}/properties/${id}.json?rest_api_key=${API_KEY}`,
+            data: { name, desc }
+        });
+        console.log('response', response)
+        return response.data.field
     } catch (error) {
         console.error('Failed to delete note.');
         throw error;

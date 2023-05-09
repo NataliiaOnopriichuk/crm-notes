@@ -1,25 +1,21 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
 import { useContext } from "react";
-import {
-  DataNotesContext,
-  SelectedItemContext,
-} from "../../service/serviceContext";
-
+import { SelectedItemContext } from "../../service/serviceContext";
+import { MyStyledTextArea } from "./style";
+import { SelectedContentContext } from "../../service/serviceContext.js";
 export const Workspace = () => {
-  const { notes } = useContext(DataNotesContext);
   const { selectedItem } = useContext(SelectedItemContext);
-
-  const note = notes.find((notice) => notice.id === selectedItem);
+  const { content, setContent } = useContext(SelectedContentContext);
 
   return (
-    <Box sx={{ flexGrow: 1, p: 3 }}>
-      {selectedItem && note ? (
-        <Typography paragraph sx={{ m: 0 }}>
-          {note.desc}
-        </Typography>
-      ) : null}
-    </Box>
+    selectedItem && (
+      <MyStyledTextArea
+        component="textarea"
+        value={content || selectedItem?.desc}
+        onChange={(e) => setContent(e.target.value)}
+      >
+        {selectedItem.desc}
+      </MyStyledTextArea>
+    )
   );
 };

@@ -12,42 +12,20 @@ import {
 } from "./style";
 import { SearchBox } from "../../SearchBox/SearchBox";
 import { useContext } from "react";
-import {
-  DataNotesContext,
-  SelectedItemContext,
-} from "../../../service/serviceContext";
-import { createNote, deleteNote } from "../../../service/api";
+import { SelectedItemContext } from "../../../service/serviceContext";
 
-export const Header = () => {
+export const Header = ({ addNote, deleteSelectedNote }) => {
   const isMobile = useMedia("(max-width: 599px)");
   const classesToolbar = useStylesToolbar();
   const classesButtonWrapper = useStylesButtonWrapper();
   const { selectedItem } = useContext(SelectedItemContext);
-  const { notes, setNotes } = useContext(DataNotesContext);
-
-  const addNote = async () => {
-    const newNote = await createNote();
-    setNotes((prevNotes) => [...prevNotes, newNote]);
-  };
-
-  const deleteSelectedNote = async () => {
-    if (selectedItem) {
-      const selectedNote = notes.find((note) => note.id === selectedItem);
-      if (selectedNote) {
-        await deleteNote(selectedNote.id);
-        setNotes((prevNotes) =>
-          prevNotes.filter((note) => note.id !== selectedNote.id)
-        );
-      }
-    }
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MyStyledAppBar>
         <Toolbar className={isMobile ? classesToolbar.container : null}>
           <Box className={classesButtonWrapper.container}>
-            <MyStyledButton variant="contained" onClick={addNote}>
+            <MyStyledButton variant="contained" onClick={() => addNote()}>
               <Add style={{ color: "#606060" }} />
             </MyStyledButton>
             <MyStyledButton
@@ -56,7 +34,7 @@ export const Header = () => {
             >
               <DeleteOutline
                 style={{ color: "#606060" }}
-                onClick={deleteSelectedNote}
+                onClick={() => deleteSelectedNote()}
               />
             </MyStyledButton>
             <MyStyledButton

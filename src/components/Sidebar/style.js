@@ -10,6 +10,7 @@ export const useStyles = makeStyles((theme) => ({
         width: '100%',
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
+            background: '#f0f0f0',
             width: '100%',
             boxSizing: "border-box",
         },

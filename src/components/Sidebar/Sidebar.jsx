@@ -17,7 +17,7 @@ export const Sidebar = () => {
   const handleItemClick = (event) => {
     const { target } = event;
     if (target.tagName === "BUTTON" || target.tagName === "P") {
-      setSelectedItem(target.dataset.id);
+      setSelectedItem(notes.find((note) => note.id === target.dataset.id));
     }
   };
 
